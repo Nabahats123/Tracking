@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "414362957154",
+    "firebase_url": "https://final-year-project-188517.firebaseio.com",
+    "project_id": "final-year-project-188517",
+    "storage_bucket": "final-year-project-188517.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414362957154:android:ce38a7ba637d5304",
+        "android_client_info": {
+          "package_name": "com.example.nabahat.tracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414362957154-7q4cfdml6p760gfl7ovlju6rgm1iepml.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2nQjfTxGWmgCbm2tKg9qBTtQl3XC2hHA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

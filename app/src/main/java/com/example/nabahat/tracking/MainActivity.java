@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
                             Toast.makeText(MainActivity.this, "Sign In Error", Toast.LENGTH_SHORT).show();
- 
+
                         }else{
 
                         }

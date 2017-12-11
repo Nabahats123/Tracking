@@ -28,6 +28,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +49,12 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
     private static final int[] COLORS = new int[]{R.color.colorPrimaryDark,R.color.colorPrimary,R.color.colorPrimary,R.color.colorAccent,R.color.primary_dark_material_light};
     LocationRequest mLocationRequest;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);
@@ -79,6 +84,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         mMap.setMyLocationEnabled(true);
 
 
+
     }
 
     protected synchronized void buildGoogleApiClient(){
@@ -102,7 +108,6 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
             i = 2;
         }
         mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
-        mMap.addPolyline(new PolylineOptions().add(latLng,exp).width(10).color(R.color.colorPrimaryDark));
 
     }
 
@@ -131,6 +136,19 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        LatLng latLng = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude() );
+        LatLng exp = new LatLng(33.651925, 73.156604);
+        mMap.addPolyline(new PolylineOptions().add(latLng,exp).width(10).color(R.color.colorPrimaryDark));
+        MarkerOptions distance = new MarkerOptions();
+        distance.position(exp);
+        distance.title("Destination");
+        float results[] = new float[5];
+        Location.distanceBetween(latLng.latitude, latLng.longitude, exp.latitude,exp.longitude, results);
+        distance.snippet("Distance = "+ results[0]+"m");
+        mMap.addMarker(distance);
+
+
     }
 
     @Override

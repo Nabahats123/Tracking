@@ -101,11 +101,8 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
             //getDirection(latLng);
             i = 2;
         }
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
-
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(18));        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("DriverLocation");
-
         GeoFire geofire = new GeoFire(ref);
         geofire.setLocation(userId, new GeoLocation(location.getLatitude(),location.getLongitude()));
 
@@ -122,8 +119,6 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
                 .build();
         routing.execute();
     }
-
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mLocationRequest = new LocationRequest();

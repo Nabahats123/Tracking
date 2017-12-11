@@ -16,6 +16,8 @@ import com.directions.route.Route;
 import com.directions.route.RouteException;
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -31,6 +33,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,16 +66,6 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         polylines = new ArrayList<>();
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -108,6 +102,12 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
             i = 2;
         }
         mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
+
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("DriverLocation");
+
+        GeoFire geofire = new GeoFire(ref);
+        geofire.setLocation(userId, new GeoLocation(location.getLatitude(),location.getLongitude()));
 
     }
 
@@ -184,5 +184,14 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onRoutingCancelled() {
 
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
+     //   String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+      //  DatabaseReference ref = FirebaseDatabase.getInstance().getReference("DriverLocation");
+
+     //   GeoFire geofire = new GeoFire(ref);
+        //geofire.removeLocation(userId);
     }
 }

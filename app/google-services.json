@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "414362957154-na9fgtil9fms7t6ar2791462rr3529gg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nabahat.tracking",
+            "certificate_hash": "207ed7097b91c13a2a20c4a1402e17d535673ea8"
+          }
+        },
+        {
           "client_id": "414362957154-7q4cfdml6p760gfl7ovlju6rgm1iepml.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414362957154-7q4cfdml6p760gfl7ovlju6rgm1iepml.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

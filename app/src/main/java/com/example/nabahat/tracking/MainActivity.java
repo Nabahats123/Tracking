@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,12 +19,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText DriverName, DriverEmail, DriverPhone, DriverPassword, DriverBusNumber;
-    Button SignUp, SignIn;
+    TextView SignUp, SignIn;
+
     private DatabaseReference mDatabase;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener firebaseauthlistener;
@@ -56,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         DriverPhone = (EditText) findViewById(R.id.lay_phone);
         DriverPassword = (EditText) findViewById(R.id.lay_password);
         DriverBusNumber = (EditText) findViewById(R.id.lay_busnumber);
-        SignIn = (Button) findViewById(R.id.lay_signin);
-        SignUp = (Button) findViewById(R.id.lay_signup);
+        SignIn = (TextView) findViewById(R.id.lay_signin);
+        //SignUp = (TextView) findViewById(R.id.lay_signup);
 
         SignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,44 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        SignUp.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                final String DName = DriverName.getText().toString();
-               final String DEmail = DriverEmail.getText().toString();
-              final  String DPassword = DriverPassword.getText().toString();
-              final  String DPhone = DriverPhone.getText().toString();
-              final  String DBusNumber = DriverBusNumber.getText().toString();
-
-
-                mAuth.createUserWithEmailAndPassword(DEmail, DPassword).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
-                            Toast.makeText(MainActivity.this, "Sign Up Error"+ task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }else
-                        {
-                            String user_Id = mAuth.getCurrentUser().getUid();
-
-                            DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference("Driver").child(user_Id);
-                            current_user_db.setValue(true);
-                            Driver driver = new Driver(user_Id, DName, DEmail, DPassword, DPhone, DBusNumber);
-                            current_user_db.setValue(driver).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(!task.isSuccessful()){
-                                        Toast.makeText(MainActivity.this, "Record Not Added"+ task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-                        }
-                    }
-                });
-
-           }
-        });
 
 
     }

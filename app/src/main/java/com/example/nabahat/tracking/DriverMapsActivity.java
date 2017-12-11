@@ -107,7 +107,6 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         geofire.setLocation(userId, new GeoLocation(location.getLatitude(),location.getLongitude()));
 
     }
-
     private void getDirection(LatLng latLng) {
         LatLng start = new LatLng(33, 35);;
         LatLng end = new LatLng(60, 80);;

@@ -25,12 +25,35 @@
                 android:orientation="vertical">
 
                 <EditText
+                    android:id="@+id/lay_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="35dp"
+                    android:background="#0000"
+                    android:drawableRight="@drawable/pasword"
+                    android:hint="Name"
+                    android:inputType="text"
+                    android:maxLength="12"
+                    android:padding="16dp"
+                    android:textColor="#ADCCE2"
+                    android:textColorHint="#ADCCE2"
+                    android:textSize="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:background="#ADCCE2" />
+                <EditText
                     android:id="@+id/lay_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="35dp"
-                    android:layout_marginTop="20dp"
+
                     android:background="#0000"
                     android:drawableRight="@drawable/user"
                     android:hint="Email"
@@ -72,6 +95,30 @@
                     android:background="#ADCCE2" />
 
                 <EditText
+                    android:id="@+id/lay_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="35dp"
+                    android:background="#0000"
+                    android:drawableRight="@drawable/pasword"
+                    android:hint="Phone Number"
+                    android:inputType="number"
+                    android:maxLength="12"
+                    android:padding="16dp"
+                    android:textColor="#ADCCE2"
+                    android:textColorHint="#ADCCE2"
+                    android:textSize="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:background="#ADCCE2" />
+
+                <EditText
                     android:id="@+id/lay_busnumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,8 +126,8 @@
                     android:layout_marginRight="35dp"
                     android:background="#0000"
                     android:drawableRight="@drawable/user"
-                    android:hint="Bus Number"
-                    android:inputType="textPassword"
+                    android:hint="Route Number"
+                    android:inputType="number"
                     android:maxLength="12"
                     android:padding="16dp"
                     android:textColor="#ADCCE2"
@@ -110,59 +157,28 @@
                     android:text="Sign In"
                     android:textColor="#fff"
                     android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/lay_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="28dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/angle"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="Sign Up"
+                    android:textColor="#fff"
+                    android:textSize="16dp" />
             </LinearLayout>
-
-            <TextView
-
-                android:id="@+id/imac"
-                android:layout_width="132dp"
-                android:layout_height="30dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="CIIT BUS"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
 
         </RelativeLayout>
 
 
     </FrameLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/lay_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.99"
-            android:ems="10"
-            android:hint="Name"
-            android:inputType="textPersonName"
-            android:textColor="@android:color/white"
-            tools:layout_editor_absoluteX="84dp"
-            tools:layout_editor_absoluteY="36dp" />
-
-
-
-
-
-        <EditText
-            android:id="@+id/lay_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Phone Number"
-            android:inputType="phone"
-            tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="216dp" />
-
-    </LinearLayout>
 
 </RelativeLayout>

@@ -38,8 +38,11 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
 
@@ -53,7 +56,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.R.attr.name;
 import static android.R.attr.start;
+import static android.os.Build.ID;
 import static com.example.nabahat.tracking.R.id.map;
 
 public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, RoutingListener {
@@ -68,6 +73,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
     String j = "";
     private static final int[] COLORS = new int[]{R.color.colorPrimaryDark,R.color.colorPrimary,R.color.colorPrimary,R.color.colorAccent,R.color.primary_dark_material_light};
     LocationRequest mLocationRequest;
+
 
 
     @Override
@@ -130,8 +136,21 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         GeoFire geofire = new GeoFire(ref);
         geofire.setLocation(userId, new GeoLocation(location.getLatitude(),location.getLongitude()));
 
-    }
 
+
+
+
+
+    }
+    @Override
+    public void onBackPressed()
+    {
+        // code here to show dialog
+        super.onBackPressed();
+        startActivity(new Intent(DriverMapsActivity.this, DriverHome.class));
+        finish();
+        // optional depending on your needs
+    }
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mLocationRequest = new LocationRequest();
@@ -298,9 +317,9 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
             try {
                 // Fetching the data from web service
                 data = downloadUrl(url[0]);
-                Log.d("Background Task data", data.toString());
+             //   Log.d("Background Task data", data.toString());
             } catch (Exception e) {
-                Log.d("Background Task", e.toString());
+             //   Log.d("Background Task", e.toString());
             }
             return data;
         }
@@ -377,7 +396,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
                 lineOptions.width(10);
                 lineOptions.color(Color.RED);
 
-                Log.d("onPostExecute","onPostExecute lineoptions decoded");
+               // Log.d("onPostExecute","onPostExecute lineoptions decoded");
 
             }
 
@@ -386,7 +405,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
                 mMap.addPolyline(lineOptions);
             }
             else {
-                Log.d("onPostExecute","without Polylines drawn");
+              //  Log.d("onPostExecute","without Polylines drawn");
             }
         }
     }

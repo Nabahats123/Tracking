@@ -17,7 +17,7 @@ public class Driver {
 
 
     public Driver() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+
     }
 
     public Driver(String id, String username, String email, String password, String phonenumber, String busnumber) {

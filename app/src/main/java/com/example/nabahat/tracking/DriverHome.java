@@ -18,7 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class DriverHome extends AppCompatActivity {
-    TextView StartTracker, EnterFuelDetails, Logout;
+    TextView StartTracker, Logout;
     DatabaseReference mDatabase;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener firebaseauthlistener;
@@ -26,9 +26,8 @@ public class DriverHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_home);
-        StartTracker = (TextView)findViewById(R.id.lay_starttracker);
-        EnterFuelDetails = (TextView)findViewById(R.id.lay_enterfuel);
-        Logout = (TextView)findViewById(R.id.lay_signout);
+        StartTracker = (TextView) findViewById(R.id.lay_starttracker);
+        Logout = (TextView) findViewById(R.id.lay_signout);
         mDatabase = FirebaseDatabase.getInstance().getReference("Driver");
 
         StartTracker.setOnClickListener(new View.OnClickListener() {
@@ -36,7 +35,7 @@ public class DriverHome extends AppCompatActivity {
             public void onClick(View v) {
                 Intent OpenMap = new Intent(DriverHome.this, DriverMapsActivity.class);
                 //String user_Id = mAuth.getCurrentUser().getUid();
-               // DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference("Driver").child(user_Id);
+                // DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference("Driver").child(user_Id);
 
                 startActivity(OpenMap);
                 finish();
@@ -49,44 +48,8 @@ public class DriverHome extends AppCompatActivity {
                 mAuth.getInstance().signOut();
                 startActivity(new Intent(DriverHome.this, MainActivity.class));
                 finish();
-}
-        });
-        EnterFuelDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Driver").child(userId);
-                ref.addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        String value = dataSnapshot.getValue(String.class);
-
-                        Toast.makeText(DriverHome.this, value, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
             }
         });
     }
+
 }

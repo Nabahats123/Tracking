@@ -33,23 +33,6 @@ tools:context="com.example.nabahat.tracking.DriverHome">
             android:textSize="16dp" />
 
         <TextView
-            android:id="@+id/lay_enterfuel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="28dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="32dp"
-            android:layout_weight="1"
-            android:background="@drawable/angle2"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="Enter Fuel Details"
-            android:textColor="#fff"
-            android:textSize="16dp" />
-
-        <TextView
             android:id="@+id/lay_signout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

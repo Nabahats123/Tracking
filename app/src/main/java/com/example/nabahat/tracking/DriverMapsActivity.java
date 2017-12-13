@@ -173,7 +173,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         float results[] = new float[5];
         //Location.distanceBetween(latLng.latitude, latLng.longitude, exp.latitude,exp.longitude, results);
         distance.snippet("Distance = " + results[0] + "m");
-        mMap.addMarker(distance);
+       //    mMap.addMarker(distance);
 
 
         loc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);

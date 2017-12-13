@@ -1,7 +1,10 @@
 package com.example.nabahat.tracking;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -24,7 +27,7 @@ import org.w3c.dom.Text;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
+    AlertDialog.Builder builder;
     EditText DriverName, DriverEmail, DriverPhone, DriverPassword, DriverBusNumber;
     TextView SignUp, SignIn;
 
@@ -68,17 +71,54 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String email = DriverEmail.getText().toString();
                 final String password = DriverPassword.getText().toString();
-                mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
-                            Toast.makeText(MainActivity.this, "Sign In Error"+ task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                if (email.equals("") || password.equals("") ) {
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                    builder.setTitle("Error")
+                            .setMessage("Please enter Email and Password")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                else {
+                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()) {
+                              //  Toast.makeText(MainActivity.this, "Sign In Error" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                AlertDialog.Builder builder;
+                                builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                                builder.setTitle("Error")
+                                        .setMessage(task.getException().getMessage())
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // continue with delete
+                                            }
+                                        })
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .show();
+
+
+                            }
+
+                            //DriverAct.putExtra("Bus Number", DriverBusNumber.getText().toString());
                         }
-
-                        //DriverAct.putExtra("Bus Number", DriverBusNumber.getText().toString());
-                    }
-                });
-
+                    });
+                }
             }
         });
 
@@ -88,18 +128,34 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String DName = DriverName.getText().toString();
                 final String DEmail = DriverEmail.getText().toString();
-                final  String DPassword = DriverPassword.getText().toString();
-                final  String DPhone = DriverPhone.getText().toString();
-                final  String DBusNumber = DriverBusNumber.getText().toString();
-
-
+                final String DPassword = DriverPassword.getText().toString();
+                final String DPhone = DriverPhone.getText().toString();
+                final String DBusNumber = DriverBusNumber.getText().toString();
+                if (DName.equals("") || DPassword.equals("") || DBusNumber.equals("") || DEmail.equals("") || DPhone.equals("")) {
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                    builder.setTitle("Error")
+                            .setMessage("Please Enter All Details")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                else {
                 mAuth.createUserWithEmailAndPassword(DEmail, DPassword).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
-                            Toast.makeText(MainActivity.this, "Sign Up Error"+ task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }else
-                        {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "Sign Up Error" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
                             String user_Id = mAuth.getCurrentUser().getUid();
 
                             DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference("Driver").child(user_Id);
@@ -108,8 +164,24 @@ public class MainActivity extends AppCompatActivity {
                             current_user_db.setValue(driver).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(!task.isSuccessful()){
-                                        Toast.makeText(MainActivity.this, "Record Not Added"+ task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    if (!task.isSuccessful()) {
+                                        AlertDialog.Builder builder;
+                                        builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                                        builder.setTitle("Error")
+                                                .setMessage(task.getException().getMessage())
+                                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        // continue with delete
+                                                    }
+                                                })
+                                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        // do nothing
+                                                    }
+                                                })
+                                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                                .show();
+                                      //  Toast.makeText(MainActivity.this, "Record Not Added" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -117,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+            }
 
             }
         });

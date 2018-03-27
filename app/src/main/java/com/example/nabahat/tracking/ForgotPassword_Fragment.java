@@ -1,5 +1,6 @@
 package com.example.nabahat.tracking;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
@@ -52,7 +53,7 @@ public class ForgotPassword_Fragment extends Fragment implements
 		back = (TextView) view.findViewById(R.id.backToLoginBtn);
 
 		// Setting text selector over textviews
-		XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+		@SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
 		try {
 			ColorStateList csl = ColorStateList.createFromXml(getResources(),
 					xrp);

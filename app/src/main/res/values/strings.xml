@@ -24,4 +24,5 @@
     <string name="submit">SUBMIT</string>
     <string name="back">BACK</string>
     <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_activity_forgot_password">Forgot_password</string>
 </resources>

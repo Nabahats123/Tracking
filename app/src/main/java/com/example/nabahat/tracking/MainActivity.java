@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
 
-            Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
             Intent register = new Intent(MainActivity.this, SignUp.class);
             startActivity(register);
 
@@ -105,16 +105,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user!= null){
+                if (user!= null && user.isEmailVerified()){
                     Intent OpenMap = new Intent(MainActivity.this, DriverHome.class);
 //                    OpenMap.putExtra("Bus Number", DriverBusNumber.getText().toString());
                     startActivity(OpenMap);
 
                     finish();
                 }
-                else{
-
+/*
+                if (user.isEmailVerified()){
+                    Toast.makeText(MainActivity.this, "verified" , Toast.LENGTH_SHORT).show();
                 }
+                    else {
+
+                    user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(MainActivity.this, "not veriied and sent" , Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    }
+*/
+
                     return;
             }
         };
@@ -173,11 +185,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     }
                 });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            Intent forget = new Intent(MainActivity.this, Forgot_password.class);
+            startActivity(forget);
+            finish();
+            }
+        });
         SignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String email = DriverEmail.getText().toString();
                 final String password = DriverPassword.getText().toString();
+                final FirebaseUser usercheck = FirebaseAuth.getInstance().getCurrentUser();
                 // Get email id and password
                 String getEmailId = DriverEmail.getText().toString();
                 String getPassword = DriverPassword.getText().toString();
@@ -246,10 +268,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //new CustomToast().Show_Toast(getActivity(), view,
                 //        "Your Email Id is Invalid.");
                 // Else do login and do your stuff
-                else
+
+
                     mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+
                             if (!task.isSuccessful()) {
                                 //  Toast.makeText(MainActivity.this, "Sign In Error" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -278,10 +302,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                             }
+                            else {
+                                checkIfEmailVerified();
+                               // Toast.makeText(MainActivity.this, "Email is verified", Toast.LENGTH_SHORT).show();
+                                }
+
+
+
+
 
                             //DriverAct.putExtra("Bus Number", DriverBusNumber.getText().toString());
                         }
                     });
+
+
 
 
             }
@@ -365,6 +399,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                 .replace(R.id.frameContainer, new Login_Fragment(),
                         Utils.Login_Fragment).commit();
+    }
+
+    private void checkIfEmailVerified()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user.isEmailVerified())
+        {
+            // user is verified, so you can finish this activity or send user to activity which you want.
+            finish();
+            Toast.makeText(MainActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            // email is not verified, so just prompt the message to the user and restart this activity.
+            // NOTE: don't forget to log out the user.
+            Toast.makeText(MainActivity.this, "Email is not verified", Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
+
+            //restart this activity
+
+        }
     }
  @Override
     protected void onStart(){

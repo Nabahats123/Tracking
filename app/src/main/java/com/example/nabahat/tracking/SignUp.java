@@ -31,6 +31,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -56,7 +57,7 @@ public class  SignUp extends AppCompatActivity implements View.OnClickListener {
 
     private DatabaseReference mDatabase;
     FirebaseAuth mAuth;
-    //FirebaseAuth.AuthStateListener firebaseauthlistener;
+    FirebaseAuth.AuthStateListener firebaseauthlistener;
     Driver driver;
     String id;
     Intent DriverAct;
@@ -97,7 +98,7 @@ public class  SignUp extends AppCompatActivity implements View.OnClickListener {
 
                     }
                 });
-        Toast.makeText(SignUp.this, "here", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(SignUp.this, "here", Toast.LENGTH_SHORT).show();
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("Driver");
         id = mDatabase.push().getKey();
@@ -123,6 +124,36 @@ public class  SignUp extends AppCompatActivity implements View.OnClickListener {
             terms_conditions.setTextColor(csl);
         } catch (Exception e) {
         }
+
+        firebaseauthlistener = new FirebaseAuth.AuthStateListener(){
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user!= null){
+                    Intent OpenMap = new Intent(SignUp.this, DriverHome.class);
+//                    OpenMap.putExtra("Bus Number", DriverBusNumber.getText().toString());
+                    startActivity(OpenMap);
+
+                    finish();
+                }
+/*
+                if (user.isEmailVerified()){
+                    Toast.makeText(MainActivity.this, "verified" , Toast.LENGTH_SHORT).show();
+                }
+                    else {
+
+                    user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(MainActivity.this, "not veriied and sent" , Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    }
+*/
+
+                return;
+            }
+        };
 
         SignUp.setOnClickListener(new View.OnClickListener() {
 
@@ -264,6 +295,19 @@ public class  SignUp extends AppCompatActivity implements View.OnClickListener {
                     mAuth.createUserWithEmailAndPassword(getEmailId, getPassword).addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    Toast.makeText(SignUp.this, "Please confirm your email", Toast.LENGTH_SHORT).show();
+                                    FirebaseAuth.getInstance().signOut();
+                                    Intent intent = new Intent(SignUp.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();// Finally show toast
+
+                                }
+                            });
                             if (!task.isSuccessful()) {
                                 LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -297,6 +341,7 @@ public class  SignUp extends AppCompatActivity implements View.OnClickListener {
                                 current_user_db.setValue(driver).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
+
                                         if (!task.isSuccessful()) {
                                             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -322,6 +367,9 @@ public class  SignUp extends AppCompatActivity implements View.OnClickListener {
                                             toast.show();// Finally show toast
 
                                             //  Toast.makeText(MainActivity.this, "Record Not Added" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                        else {
+
                                         }
                                     }
                                 });

@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog.Builder builder;
     EditText DriverName, DriverEmail, DriverPhone, DriverPassword, DriverBusNumber;
     TextView SignUp, SignIn;
+    private static FragmentManager fragmentManager;
 
     private DatabaseReference mDatabase;
     FirebaseAuth mAuth;
@@ -41,6 +44,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fragmentManager = getSupportFragmentManager();
+
+        // If savedinstnacestate is null then replace login fragment
+        if (savedInstanceState == null) {
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.frameContainer, new Login_Fragment(),
+                            Utils.Login_Fragment).commit();
+        }
+
+        // On close icon click finish activity
+        findViewById(R.id.close_activity).setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+                        finish();
+
+                    }
+                });
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("Driver");
         id = mDatabase.push().getKey();
@@ -51,8 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user!= null){
                     Intent OpenMap = new Intent(MainActivity.this, DriverHome.class);
-                    startActivity(OpenMap);
                     OpenMap.putExtra("Bus Number", DriverBusNumber.getText().toString());
+                    startActivity(OpenMap);
+
                     finish();
                     return;
                 }
@@ -195,11 +219,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-    private void addDriver() {
+    // Replace Login Fragment with animation
+    protected void replaceLoginFragment() {
+        fragmentManager
+                .beginTransaction()
+                .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                .replace(R.id.frameContainer, new Login_Fragment(),
+                        Utils.Login_Fragment).commit();
     }
-
-    @Override
+ @Override
     protected void onStart(){
         super.onStart();
         mAuth.addAuthStateListener(firebaseauthlistener);
@@ -209,5 +237,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop(){
         super.onStop();
         mAuth.removeAuthStateListener(firebaseauthlistener);
+    }
+    @Override
+    public void onBackPressed() {
+
+        // Find the tag of signup and forgot password fragment
+        Fragment SignUp_Fragment = fragmentManager
+                .findFragmentByTag(Utils.SignUp_Fragment);
+        Fragment ForgotPassword_Fragment = fragmentManager
+                .findFragmentByTag(Utils.ForgotPassword_Fragment);
+
+        // Check if both are null or not
+        // If both are not null then replace login fragment else do backpressed
+        // task
+
+        if (SignUp_Fragment != null)
+            replaceLoginFragment();
+        else if (ForgotPassword_Fragment != null)
+            replaceLoginFragment();
+        else
+            super.onBackPressed();
     }
 }

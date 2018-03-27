@@ -33,10 +33,17 @@ public class DriverHome extends AppCompatActivity {
         StartTracker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String Bus = "";
                 Intent OpenMap = new Intent(DriverHome.this, DriverMapsActivity.class);
                 //String user_Id = mAuth.getCurrentUser().getUid();
                 // DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference("Driver").child(user_Id);
+                Bundle extras = getIntent().getExtras();
+                if (extras != null) {
+                    Bus = extras.getString("Bus Number");
+                }
+                    OpenMap.putExtra("Bus Number", Bus);
 
+                Toast.makeText( DriverHome.this ,Bus.toString(), Toast.LENGTH_SHORT).show();
                 startActivity(OpenMap);
                 finish();
             }

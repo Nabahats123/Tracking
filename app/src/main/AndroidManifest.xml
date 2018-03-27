@@ -42,7 +42,11 @@
         <activity
             android:name=".DriverMapsActivity"
             android:label="@string/title_activity_driver_maps" />
-        <activity android:name=".DriverHome"></activity>
+        <activity android:name=".DriverHome" />
+        <activity
+            android:name=".SignUp"
+            android:label="@string/title_activity_sign_up"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

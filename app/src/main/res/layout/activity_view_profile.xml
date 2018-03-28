@@ -63,16 +63,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:isIndicator="true"
-                        android:numStars="5"/>
+                        android:numStars="5"
+                        android:stepSize="0.1"
+                        android:progressTint="@color/background_color"/>
+
 
                     <TextView
+
+                        android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1205"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
+                        android:text="Average"
                         android:id="@+id/rating"
-                        android:textColor="@color/background_color"/>
+                        android:textColor="@color/background_color"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        />
 
                 </LinearLayout>
             </LinearLayout>

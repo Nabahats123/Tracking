@@ -74,31 +74,25 @@ public class EditProfile extends AppCompatActivity {
 
               //  ref.child("username").setValue(displayname.getText());
 
-                //Driver driver = new Driver(userId, displayname.getText().toString(), displayname.getText().toString(), displayname.getText().toString(), displayname.getText().toString());
+                //Driver driver = new Driver(userId, displayname.getText().toString(), displayname.getText().toString(), displayname.getText().toString(), displayname.getText().toString());)
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
+                        String name= displayname.getText().toString();
+                        String email= emailedit.getText().toString();
+                        String phone= displaynumber.getText().toString();
+                        String route= displayroute.getText().toString();
+                        dataSnapshot.child("username").getRef().setValue(name);
+                        dataSnapshot.child("email").getRef().setValue(email);
+                        dataSnapshot.child("phonenumber").getRef().setValue(phone);
+                        dataSnapshot.child("busnumber").getRef().setValue(route);
 
 
-                        Log.i("Data Received",dataSnapshot.toString());
-                        if (dataSnapshot.exists()) {
-                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                String name= dataSnapshot.child("username").getValue(String.class);
-                                String email= dataSnapshot.child("email").getValue(String.class);
-                                String phone= dataSnapshot.child("phonenumber").getValue(String.class);
-                                String route= dataSnapshot.child("busnumber").getValue(String.class);
-                                dataSnapshot.getRef().child("username").setValue(displayname.getText());
-                                //displayname.setText(name);
-                                //emailedit.setText(email);
-                               // displaynumber.setText(phone);
-                                //displayroute.setText(route);
-                            }
+
 
                         }
-                        else{
-                            Toast.makeText(EditProfile.this, "No Snapshot", Toast.LENGTH_SHORT).show();}
-                    }
+
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -124,8 +118,11 @@ public class EditProfile extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        // mAuth.removeAuthStateListener(firebaseauthlistener);
-        finish();
+        Intent viewprofile = new Intent(EditProfile.this, ViewProfile.class);
+        startActivity(viewprofile);
+        finish();// mAuth.removeAuthStateListener(firebaseauthlistener);
+
+
 
 
     }

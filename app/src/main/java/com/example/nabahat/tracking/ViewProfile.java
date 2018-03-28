@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +43,7 @@ public class ViewProfile extends AppCompatActivity {
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Driver").child(userId);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.i("Data Received",dataSnapshot.toString());
@@ -68,18 +69,23 @@ public class ViewProfile extends AppCompatActivity {
 
             }
         });
+
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             Intent editprofile = new Intent(ViewProfile.this, EditProfile.class);
             startActivity(editprofile);
+            finish();
             }
         });
     }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
         // mAuth.removeAuthStateListener(firebaseauthlistener);
+        Intent home = new Intent(ViewProfile.this, DriverHome.class);
+        startActivity(home);
         finish();
 
 

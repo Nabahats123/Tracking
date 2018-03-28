@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -20,10 +21,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,12 +39,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class  SignUp extends AppCompatActivity implements View.OnClickListener {
+public class  SignUp extends AppCompatActivity  {
     AlertDialog.Builder builder;
-    private EditText DriverName, DriverEmail, DriverPhone, DriverPassword, DriverBusNumber, confirmPassword;
+    private EditText DriverName, DriverEmail, DriverPhone, DriverPassword,  confirmPassword;
+    private Spinner DriverBusNumber;
     TextView Already_User;
     Button SignUp;
     private static FragmentManager fragmentManager;
@@ -53,37 +60,12 @@ public class  SignUp extends AppCompatActivity implements View.OnClickListener {
     private static Button signUpButton;
     private static CheckBox terms_conditions;
 
-
-
     private DatabaseReference mDatabase;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener firebaseauthlistener;
     Driver driver;
     String id;
     Intent DriverAct;
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.signUpBtn:
-
-                // Call checkValidation method
-
-
-
-                break;
-
-            case R.id.already_user:
-
-                // Replace login fragment
-                new MainActivity().replaceLoginFragment();
-                break;
-        }
-
-    }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,13 +89,13 @@ public class  SignUp extends AppCompatActivity implements View.OnClickListener {
         DriverPhone = (EditText) findViewById(R.id.lay_phone);
         DriverPassword = (EditText) findViewById(R.id.lay_passwordsignup);
         confirmPassword = (EditText) findViewById(R.id.confirmPassword);
-        DriverBusNumber = (EditText) findViewById(R.id.lay_routenumber);
+        DriverBusNumber = (Spinner) findViewById(R.id.lay_routenumber);
         SignUp = (Button) findViewById(R.id.signUpBtn);
         Already_User = (TextView) findViewById(R.id.already_user);
         forgotPassword = (TextView) findViewById(R.id.forgot_password);
         show_hide_password = (CheckBox) findViewById(R.id.show_hide_password);
         terms_conditions = (CheckBox)findViewById(R.id.terms_conditions);
-
+        DriverBusNumber.setPrompt("Route Number");
         // Setting text selector over textviews
         @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
         try {
@@ -154,7 +136,27 @@ public class  SignUp extends AppCompatActivity implements View.OnClickListener {
                 return;
             }
         };
+        List<String> list = new ArrayList<String>();
 
+        ArrayAdapter<CharSequence> dataAdapter = ArrayAdapter.createFromResource(this,
+                R.array.Bus_Numbers, android.R.layout.simple_spinner_dropdown_item);
+        DriverBusNumber.setAdapter(dataAdapter);
+
+
+
+
+                DriverBusNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                ((TextView)parentView.getChildAt(0)).setTextColor(Color.rgb(249, 249, 249));
+                // OR ((TextView)parentView.getChildAt(0)).setTextColor(Color.RED);
+            }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
         SignUp.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -166,7 +168,7 @@ public class  SignUp extends AppCompatActivity implements View.OnClickListener {
                 final String getFullName = DriverName.getText().toString();
                 final String getEmailId = DriverEmail.getText().toString();
                 final String getMobileNumber = DriverPhone.getText().toString();
-                final String getLocation = DriverBusNumber.getText().toString();
+                final String getLocation = DriverBusNumber.getSelectedItem().toString();
                 final String getPassword = DriverPassword.getText().toString();
                 String getConfirmPassword = confirmPassword.getText().toString();
 

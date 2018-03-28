@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
@@ -32,7 +36,7 @@ public class Forgot_password extends AppCompatActivity {
     private DatabaseReference mDatabase;
     FirebaseAuth mAuth;
     //
-    // FirebaseAuth.AuthStateListener firebaseauthlistener;
+    //FirebaseAuth.AuthStateListener firebaseauthlistener;
     Driver driver;
     String id;
     Intent DriverAct;
@@ -133,28 +137,47 @@ public class Forgot_password extends AppCompatActivity {
 
                     // Else submit email id and fetch passwod or do your stuff
                 else {
-                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                    String emailAddress = "user@example.com";
 
-                    // inflate the layout over view
-                    View layout = inflater.inflate(R.layout.custom_toast,
-                            (ViewGroup) findViewById(R.id.toast_root));
+                    auth.sendPasswordResetEmail(getEmailId)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(Forgot_password.this, "Password Reset Email is sent at your email address", Toast.LENGTH_LONG).show();
+                                    Intent back = new Intent(Forgot_password.this, MainActivity.class);
+                                    startActivity(back);
+                                    finish();
 
-                    // Get TextView id and set error
-                    TextView text = (TextView) layout.findViewById(R.id.toast_error);
-                    text.setText("Clicked");
+                                    if (!task.isSuccessful()) {
+                                       // Log.d(TAG, "Email sent.");
+                                        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                    Toast toast = new Toast(getApplicationContext());// Get Toast Context
-                    toast.setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 0);// Set
-                    // Toast
-                    // gravity
-                    // and
-                    // Fill
-                    // Horizoontal
+                                        // inflate the layout over view
+                                        View layout = inflater.inflate(R.layout.custom_toast,
+                                                (ViewGroup) findViewById(R.id.toast_root));
 
-                    toast.setDuration(Toast.LENGTH_SHORT);// Set Duration
-                    toast.setView(layout); // Set Custom View over toast
+                                        // Get TextView id and set error
+                                        TextView text = (TextView) layout.findViewById(R.id.toast_error);
+                                        text.setText(task.getException().getMessage());
 
-                    toast.show();// Finally show toast
+                                        Toast toast = new Toast(getApplicationContext());// Get Toast Context
+                                        toast.setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 0);// Set
+                                        // Toast
+                                        // gravity
+                                        // and
+                                        // Fill
+                                        // Horizoontal
+
+                                        toast.setDuration(Toast.LENGTH_SHORT);// Set Duration
+                                        toast.setView(layout); // Set Custom View over toast
+
+                                        toast.show();// Finally show toast
+                                    }
+                                }
+                            });
+
+
 
                 }
 

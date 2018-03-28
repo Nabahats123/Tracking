@@ -392,14 +392,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    // Replace Login Fragment with animation
-    protected void replaceLoginFragment() {
-        fragmentManager
-                .beginTransaction()
-                .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                .replace(R.id.frameContainer, new Login_Fragment(),
-                        Utils.Login_Fragment).commit();
-    }
+
 
     private void checkIfEmailVerified()
     {

@@ -1,7 +1,9 @@
 package com.example.nabahat.tracking;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -9,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -71,21 +74,27 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
     Location mLastLocation, loc;
     int i = 1;
     private List<Polyline> polylines;
+
     ArrayList<LatLng> MarkerPoints;
     String j = "";
     int PROXIMITY_RADIUS = 10000;
     private static final int[] COLORS = new int[]{R.color.colorPrimaryDark,R.color.colorPrimary,R.color.colorPrimary,R.color.colorAccent,R.color.primary_dark_material_light};
     LocationRequest mLocationRequest;
-
+    private static final int REQUEST_LOCATION = 1;
+    LocationManager locationManager;
 
 
     double latitude = 30; double longitude = 50;
     double end_latitude =25;  double end_longitude = 40;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_maps);
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);

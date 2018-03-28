@@ -29,7 +29,6 @@ public class EditProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-
         displayname = (EditText)findViewById(R.id.editname);
         emailedit = (TextView) findViewById(R.id.editemail);
         displaynumber = (EditText) findViewById(R.id.editphone);

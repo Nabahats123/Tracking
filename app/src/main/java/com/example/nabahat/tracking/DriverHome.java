@@ -75,6 +75,22 @@ public class DriverHome extends AppCompatActivity {
                 finish();
             }
         });
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewprof = new Intent(DriverHome.this, ViewProfile.class);
+                startActivity(viewprof);
+                finish();
+            }
+        });
     }
     protected void buildAlertMessageNoGps() {
 

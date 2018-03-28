@@ -50,7 +50,9 @@
         <activity
             android:name=".Forgot_password"
             android:label="@string/title_activity_forgot_password"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ViewProfile" />
+        <activity android:name=".EditProfile"></activity>
     </application>
 
 </manifest>

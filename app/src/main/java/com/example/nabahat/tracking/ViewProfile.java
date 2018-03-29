@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class ViewProfile extends AppCompatActivity {
 
@@ -25,7 +27,7 @@ public class ViewProfile extends AppCompatActivity {
     private TextView displayname, displayemail, rating, displaynumber, displayroute;
     private Button edit;
     RatingBar ratingbar;
-
+    ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class ViewProfile extends AppCompatActivity {
         edit = (Button)findViewById(R.id.editprofilebtn);
         ratingbar = (RatingBar)findViewById(R.id.ratingBar);
 
-
+        image = (ImageView)findViewById(R.id.profileimageview);
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Driver").child(userId);
         ref.addValueEventListener(new ValueEventListener() {
@@ -57,6 +59,19 @@ public class ViewProfile extends AppCompatActivity {
                         displayemail.setText(email);
                         displaynumber.setText(phone);
                         displayroute.setText("Route Number: "+route);
+
+
+
+                    String path ="";
+
+                    for (DataSnapshot child: dataSnapshot.child("image").getChildren()) {
+                        path= child.getValue().toString();
+
+                    }
+                    Picasso.with(ViewProfile.this).load(path).into(image);
+
+
+
 
                         int ratingsum = 0;
                         int ratingtotal = 0;

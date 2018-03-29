@@ -26,7 +26,7 @@ public class DriverHome extends AppCompatActivity {
     //TextView StartTracker, Logout;
     DatabaseReference mDatabase;
     FirebaseAuth mAuth;
-    CardView notification, StartTracker, profile, Logout;
+    CardView notification, StartTracker, profile, Logout, Stoptracker, viewnotification ;
     FirebaseAuth.AuthStateListener firebaseauthlistener;
     private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
@@ -37,8 +37,10 @@ public class DriverHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         StartTracker = (CardView) findViewById(R.id.cardtracking);
+        Stoptracker = (CardView) findViewById(R.id.cardstop);
+        viewnotification = (CardView) findViewById(R.id.cardviewnotification);
         Logout = (CardView) findViewById(R.id.cardsignout);
-        notification = (CardView) findViewById(R.id.cardnotification);
+        notification = (CardView) findViewById(R.id.cardsendnotification);
         profile = (CardView) findViewById(R.id.cardprofile);
         mDatabase = FirebaseDatabase.getInstance().getReference("Driver");
 
@@ -79,7 +81,9 @@ public class DriverHome extends AppCompatActivity {
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent send = new Intent(DriverHome.this, SendNotification.class);
+                startActivity(send);
+                finish();
             }
         });
 
@@ -89,6 +93,21 @@ public class DriverHome extends AppCompatActivity {
                 Intent viewprof = new Intent(DriverHome.this, ViewProfile.class);
                 startActivity(viewprof);
                 finish();
+            }
+        });
+
+        viewnotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewnot = new Intent(DriverHome.this, ViewNotification.class);
+                startActivity(viewnot);
+                finish();
+            }
+        });
+        Stoptracker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }

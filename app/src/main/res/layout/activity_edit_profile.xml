@@ -7,42 +7,69 @@
     tools:context="com.example.nabahat.tracking.EditProfile"
     android:background="@color/graylight"
     android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:indeterminateTintMode="src_in"
+        android:indeterminateTint="@color/background_color" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="405dp">
+
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/gradientbackground"
-            android:layout_height="350dp"
             android:orientation="vertical">
 
+            <android.support.v7.widget.CardView
 
-
-
-            <ImageView
-                android:layout_marginTop="40dp"
-                android:layout_gravity="center_vertical|center_horizontal"
+                android:id="@+id/cardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src ="@drawable/cerclebackgroundgreen"
-                android:id="@+id/profileimageupload"/>
-            <TextView
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+
+                android:layout_marginTop="45dp"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <ImageView
+
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/profileimageupload"/>
+            </android.support.v7.widget.CardView>
+
+
+            <Button
+                android:id="@+id/upload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Upload Your Photo"
-                android:textColor="#fff"
-                android:textStyle="bold"
-                android:textSize="21sp"
-                />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/buttonstyleithgradient2"
+                android:text="   Upload Your Photo   " />
+
+
         </LinearLayout>
+
         <android.support.v7.widget.CardView
             android:layout_width="400dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="275dp"
-            >
+            android:layout_marginTop="275dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -50,28 +77,28 @@
                 android:weightSum="1">
 
                 <LinearLayout
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="match_parent">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:src="@drawable/ic_person_black_24dp"
-                        android:tint="@color/background_color"/>
+                        android:tint="@color/background_color" />
 
 
                     <EditText
+                        android:id="@+id/editname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Reset Name"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:id="@+id/editname"
                         android:background="@android:color/transparent"
-                        android:textColor="@color/background_color"/>
+                        android:text="Reset Name"
+                        android:textColor="@color/background_color"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -161,6 +188,7 @@
 
 
     </LinearLayout>
+
 
     <Button
         android:layout_width="250dp"

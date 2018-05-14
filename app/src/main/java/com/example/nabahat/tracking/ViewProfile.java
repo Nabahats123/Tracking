@@ -61,16 +61,14 @@ public class ViewProfile extends AppCompatActivity {
                         displayroute.setText("Route Number: "+route);
 
 
-
                     String path ="";
+                    if (dataSnapshot.child("image").hasChildren()){
+                        for (DataSnapshot child: dataSnapshot.child("image").getChildren()) {
+                            path= child.getValue().toString();
 
-                    for (DataSnapshot child: dataSnapshot.child("image").getChildren()) {
-                        path= child.getValue().toString();
+                        }
 
-                    }
-                    Picasso.with(ViewProfile.this).load(path).into(image);
-
-
+                        Picasso.with(ViewProfile.this).load(path).into(image);}
 
 
                         int ratingsum = 0;

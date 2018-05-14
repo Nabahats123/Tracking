@@ -101,11 +101,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDatabase = FirebaseDatabase.getInstance().getReference("Driver");
         id = mDatabase.push().getKey();
 
-        firebaseauthlistener = new FirebaseAuth.AuthStateListener(){
+        firebaseauthlistener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user!= null && user.isEmailVerified()){
+                if (user != null && user.isEmailVerified()) {
                     Intent OpenMap = new Intent(MainActivity.this, DriverHome.class);
 //                    OpenMap.putExtra("Bus Number", DriverBusNumber.getText().toString());
                     startActivity(OpenMap);
@@ -127,14 +127,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 */
 
-                    return;
+                return;
             }
         };
-     //   DriverName = (EditText) findViewById(R.id.lay_name);
+        //   DriverName = (EditText) findViewById(R.id.lay_name);
         DriverEmail = (EditText) findViewById(R.id.lay_email);
-    //    DriverPhone = (EditText) findViewById(R.id.lay_phone);
+        //    DriverPhone = (EditText) findViewById(R.id.lay_phone);
         DriverPassword = (EditText) findViewById(R.id.lay_password);
-   //     DriverBusNumber = (EditText) findViewById(R.id.lay_busnumber);
+        //     DriverBusNumber = (EditText) findViewById(R.id.lay_busnumber);
         SignIn = (Button) findViewById(R.id.lay_signin);
         SignUp = (TextView) findViewById(R.id.lay_signup);
         forgotPassword = (TextView) findViewById(R.id.forgot_password);
@@ -189,9 +189,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            Intent forget = new Intent(MainActivity.this, Forgot_password.class);
-            startActivity(forget);
-            finish();
+                Intent forget = new Intent(MainActivity.this, Forgot_password.class);
+                startActivity(forget);
+                finish();
             }
         });
         SignIn.setOnClickListener(new View.OnClickListener() {
@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
                 // Check if email id is valid or not
-                else if (!m.find()){
+                else if (!m.find()) {
                     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
                     // inflate the layout over view
@@ -270,59 +270,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // Else do login and do your stuff
 
 
-                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                            if (!task.isSuccessful()) {
-                                //  Toast.makeText(MainActivity.this, "Sign In Error" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        if (!task.isSuccessful()) {
+                            //  Toast.makeText(MainActivity.this, "Sign In Error" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                                // inflate the layout over view
-                                View layout = inflater.inflate(R.layout.custom_toast,
-                                        (ViewGroup) findViewById(R.id.toast_root));
+                            // inflate the layout over view
+                            View layout = inflater.inflate(R.layout.custom_toast,
+                                    (ViewGroup) findViewById(R.id.toast_root));
 
-                                // Get TextView id and set error
-                                TextView text = (TextView) layout.findViewById(R.id.toast_error);
-                                text.setText(task.getException().getMessage());
+                            // Get TextView id and set error
+                            TextView text = (TextView) layout.findViewById(R.id.toast_error);
+                            text.setText(task.getException().getMessage());
 
-                                Toast toast = new Toast(getApplicationContext());// Get Toast Context
-                                toast.setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 0);// Set
-                                // Toast
-                                // gravity
-                                // and
-                                // Fill
-                                // Horizoontal
+                            Toast toast = new Toast(getApplicationContext());// Get Toast Context
+                            toast.setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 0);// Set
+                            // Toast
+                            // gravity
+                            // and
+                            // Fill
+                            // Horizoontal
 
-                                toast.setDuration(Toast.LENGTH_SHORT);// Set Duration
-                                toast.setView(layout); // Set Custom View over toast
+                            toast.setDuration(Toast.LENGTH_SHORT);// Set Duration
+                            toast.setView(layout); // Set Custom View over toast
 
-                                toast.show();// Finally show toast
-
-
-
-                            }
-                            else {
-                                checkIfEmailVerified();
-                               // Toast.makeText(MainActivity.this, "Email is verified", Toast.LENGTH_SHORT).show();
-                                }
+                            toast.show();// Finally show toast
 
 
-
-
-
-                            //DriverAct.putExtra("Bus Number", DriverBusNumber.getText().toString());
+                        } else {
+                            checkIfEmailVerified();
+                            // Toast.makeText(MainActivity.this, "Email is verified", Toast.LENGTH_SHORT).show();
                         }
-                    });
 
 
+                        //DriverAct.putExtra("Bus Number", DriverBusNumber.getText().toString());
+                    }
+                });
 
 
             }
         });
 
         SignUp.setOnClickListener(this);
-               /* final String DName = DriverName.getText().toString();
+    }
+         /*       final String DName = DriverName.getText().toString();
                 final String DEmail = DriverEmail.getText().toString();
                 final String DPassword = DriverPassword.getText().toString();
                 final String DPhone = DriverPhone.getText().toString();
@@ -388,9 +382,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             }
-        });*/
+        });
+}*/
 
-    }
+
+
 
 
 

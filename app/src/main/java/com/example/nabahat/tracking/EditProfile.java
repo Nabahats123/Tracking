@@ -115,13 +115,15 @@ public class EditProfile extends AppCompatActivity {
                         displayroute.setText(route);
 
 
+
                     String path ="";
+                    if (dataSnapshot.child("image").hasChildren()){
+                        for (DataSnapshot child: dataSnapshot.child("image").getChildren()) {
+                            path= child.getValue().toString();
 
-                    for (DataSnapshot child: dataSnapshot.child("image").getChildren()) {
-                        path= child.getValue().toString();
+                        }
 
-                    }
-                    Picasso.with(EditProfile.this).load(path)                            .into(image);
+                        Picasso.with(EditProfile.this).load(path).into(image);}
 
                 }
                 else{
@@ -179,6 +181,10 @@ public class EditProfile extends AppCompatActivity {
                                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                                     double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                                     progressBar.setProgress((int) progress);
+                                    Intent viewprofile = new Intent(EditProfile.this, ViewProfile.class);
+                                    startActivity(viewprofile);
+                                    finish();
+
                                 }
                             });
                         }

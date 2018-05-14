@@ -35,8 +35,7 @@ public class Forgot_password extends AppCompatActivity {
     private static TextView submit, back;
     private DatabaseReference mDatabase;
     FirebaseAuth mAuth;
-    //
-    //FirebaseAuth.AuthStateListener firebaseauthlistener;
+
     Driver driver;
     String id;
     Intent DriverAct;
@@ -144,7 +143,7 @@ public class Forgot_password extends AppCompatActivity {
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(Forgot_password.this, "Password Reset Email is sent at your email address", Toast.LENGTH_LONG).show();
+                                  //  Toast.makeText(Forgot_password.this, "Password Reset Email is sent at your email address", Toast.LENGTH_LONG).show();
                                     Intent back = new Intent(Forgot_password.this, MainActivity.class);
                                     startActivity(back);
                                     finish();

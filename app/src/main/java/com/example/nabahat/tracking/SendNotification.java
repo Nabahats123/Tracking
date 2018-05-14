@@ -45,7 +45,7 @@ public class SendNotification extends AppCompatActivity {
                         Log.i("Data Received",dataSnapshot.toString());
                         if (dataSnapshot.exists()) {
                             String route= dataSnapshot.child("busnumber").getValue(String.class);
-                            String person = "driver" + dataSnapshot.child("username").getValue(String.class);
+                            String person = "Driver: " + dataSnapshot.child("username").getValue(String.class);
                             DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Notification").child("NotificationbyDriver");
 
                             Notification notifobject = new Notification(route, NotificationText, person) ;

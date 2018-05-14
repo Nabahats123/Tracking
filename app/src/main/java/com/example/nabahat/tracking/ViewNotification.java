@@ -34,29 +34,20 @@ public class ViewNotification extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this,R.layout.notif, R.id.info, list);
         notification = new Notification();
         listiew = (ListView)findViewById(R.id.listview);
+        listiew.setAdapter(adapter);
         database = FirebaseDatabase.getInstance();
-        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Notification").child("NotificationbyDriver");
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Notification").child("Drivers");
 
-        ref = database.getReference().child("Notification");
+        //ref = database.getReference().child("Notification");
         //dbref.child().getKey();
         dbref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
 
-                    String jey =  ds.getKey();
-
-                    notification = ds.getValue(Notification.class);
-                    String busvalue = ds.child("bus").getValue(String.class);
-
-                    String busmessage = ds.child("message").getValue(String.class);
-                    String bussender = ds.child("sender").getValue(String.class);
-                    //Toast.makeText(ViewNotification.this,busvalue+busmessage+bussender,Toast.LENGTH_SHORT).show();
-                    notification.setBus(busvalue);
-                    notification.setMessage(busmessage);
-                    notification.setSender(bussender);
-                    list.add(busmessage+" sent by "+bussender);
-
+                    String notification = ds.child("notification").getValue(String.class);
+                    String bus = ds.child("bus").getValue(String.class);
+                    adapter.add(notification+" sent by ADMIN" );
                 }
                 listiew.setAdapter(adapter);
             }
@@ -71,7 +62,7 @@ public class ViewNotification extends AppCompatActivity {
 
 
 
-    
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

@@ -4,12 +4,17 @@
     android:layout_height="match_parent">
 
 
+
     <TextView
         android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:textSize="18dp"
+        android:textStyle="normal"
+        android:textColor="@color/background_color"
+        android:layout_margin="5dp"
+        android:padding="5dp"/>
+
 
 
 </LinearLayout>

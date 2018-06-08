@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -40,6 +41,7 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class DriverHome extends AppCompatActivity {
     //TextView StartTracker, Logout;
@@ -54,6 +56,9 @@ public class DriverHome extends AppCompatActivity {
     double servicefuel,servicespeed;
     double fuelConsumed;
     double latti,longi;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     MyReceiver myReceiver = new MyReceiver();
     String route ;
@@ -83,6 +88,16 @@ public class DriverHome extends AppCompatActivity {
                 myReceiver, new IntentFilter("GPSLocationUpdates"));
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+
+        pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        editor = pref.edit();
+        editor.putString("TimeStamp", timeStamp);
+        editor.commit();
+        Intent serviceIntent = new Intent(DriverHome.this, CustomIntentServiceJava.class);
+        startService(serviceIntent);
 
         //STEP#1
         StartTracker.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +150,8 @@ public class DriverHome extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //startActivity(new Intent(DriverHome.this, PhoneActivity.class));
+
                 startActivity(new Intent(DriverHome.this, ViewProfile.class));
                 finish();
             }
@@ -251,22 +268,23 @@ public class DriverHome extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     route = dataSnapshot.child("busnumber").getValue(String.class);
+                    Log.d("BusNumber",route);
+                    final Calendar c = Calendar.getInstance();
+                    SimpleDateFormat df1 = new SimpleDateFormat("h:mm a");
+                    String formattedTime = df1.format(c.getTime());
+                    DateFormat dateFormatter = new SimpleDateFormat("yyyy:MM:dd");
+                    String formattedDate = dateFormatter.format(c.getTime());
 
+                    DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Fuel");
+                    Fuel fuel = new Fuel(fuelConsumed ,servicefuel, servicetime, route, servicedistance, servicespeed, formattedDate, formattedTime);
+                    ref2.push().setValue(fuel);
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                 }
             });
 
-            final Calendar c = Calendar.getInstance();
-            SimpleDateFormat df1 = new SimpleDateFormat("h:mm a");
-            String formattedTime = df1.format(c.getTime());
-            DateFormat dateFormatter = new SimpleDateFormat("yyyy:MM:dd");
-            String formattedDate = dateFormatter.format(c.getTime());
 
-            ref = FirebaseDatabase.getInstance().getReference("Fuel");
-            Fuel fuel = new Fuel(fuelConsumed ,servicefuel, servicetime, route, servicedistance, servicespeed, formattedDate, formattedTime);
-            ref.push().setValue(fuel);
 
         }
     }

@@ -176,6 +176,9 @@ public class  SignUp extends AppCompatActivity  {
                 Pattern p = Pattern.compile(Utils.regEx);
                 Matcher m = p.matcher(getEmailId);
 
+                Pattern p2 = Pattern.compile(Utils.regEx2);
+                Matcher m2 = p2.matcher(getFullName);
+
                 // Check if all strings are null or not
                 if (getFullName.equals("") || getFullName.length() == 0
                         || getEmailId.equals("") || getEmailId.length() == 0
@@ -236,6 +239,31 @@ public class  SignUp extends AppCompatActivity  {
                     toast.show();// Finally show toast
                 }
 
+                // Check if username valid or not
+                else if (!m2.find()){
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                    // inflate the layout over view
+                    View layout = inflater.inflate(R.layout.custom_toast,
+                            (ViewGroup) findViewById(R.id.toast_root));
+
+                    // Get TextView id and set error
+                    TextView text = (TextView) layout.findViewById(R.id.toast_error);
+                    text.setText("Your Username is Invalid");
+
+                    Toast toast = new Toast(getApplicationContext());// Get Toast Context
+                    toast.setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 0);// Set
+                    // Toast
+                    // gravity
+                    // and
+                    // Fill
+                    // Horizoontal
+
+                    toast.setDuration(Toast.LENGTH_SHORT);// Set Duration
+                    toast.setView(layout); // Set Custom View over toast
+
+                    toast.show();// Finally show toast
+                }
 
                     // Check if both password should be equal
                 else if (!getConfirmPassword.equals(getPassword)) {

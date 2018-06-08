@@ -2,6 +2,7 @@ package com.example.nabahat.tracking;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,6 +50,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -61,6 +64,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.R.attr.dial;
 import static android.R.attr.name;
 import static android.R.attr.start;
 import static android.os.Build.ID;
@@ -99,6 +103,8 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);
         mapFragment.getMapAsync(this);
+       // new GeoCordinates().execute
+
 
 
         polylines = new ArrayList<>();
@@ -306,6 +312,63 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     protected void onStop(){
         super.onStop();
+
+    }
+
+
+    private class GeoCordinates extends AsyncTask<String, Void, String>{
+
+
+        ProgressDialog dialog = new ProgressDialog(DriverMapsActivity.this);
+        @Override
+        protected String doInBackground(String... strings) {
+
+            String response;
+            try{
+                           String address = strings[0];
+                           HttpDataHandler http = new HttpDataHandler();
+                           String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?address=%s",address);
+                           response = http.getHttpData(url);
+
+                           return response;
+                       }
+                      catch (Exception ex)
+                       {
+
+                       }
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            dialog.setMessage("Please Wait");
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+
+        }
+
+
+        @Override
+        protected void onPostExecute(String s){
+            try{
+                JSONObject jsonObject = new JSONObject(s);
+
+                String lat = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry")
+                        .getJSONObject("location").get("lat").toString();
+                String lng = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry")
+                        .getJSONObject("location").get("lng").toString();
+
+
+                if(dialog.isShowing())
+                    dialog.dismiss();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
 
     }
 }

@@ -182,6 +182,7 @@
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
                 android:text="Route Number"
+
                 android:textStyle="bold"
                 android:id="@+id/editroute"/>
         </LinearLayout>

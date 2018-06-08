@@ -55,12 +55,19 @@
         <activity android:name=".ViewProfile" />
         <activity android:name=".EditProfile" />
         <activity android:name=".SendNotification" />
-        <activity android:name=".ViewNotification"></activity>
+        <activity android:name=".ViewNotification" />
 
+        <service
+            android:name=".CustomIntentServiceJava"
+            android:enabled="true"
+            android:exported="true"
+            android:label="Driver Service" />
         <service
             android:name=".MyService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".PhoneActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.example.nabahat.tracking;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +12,10 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,6 +45,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.security.AccessController.getContext;
 
@@ -74,9 +80,6 @@ public class EditProfile extends AppCompatActivity {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mStorage = FirebaseStorage.getInstance().getReference();
         progressBar = (ProgressBar)findViewById(R.id.progressBar2);
-
-
-
 
 
 
@@ -157,12 +160,142 @@ public class EditProfile extends AppCompatActivity {
                         String email = emailedit.getText().toString();
                         String phone = displaynumber.getText().toString();
                         String route = displayroute.getText().toString();
-                        dataSnapshot.child("username").getRef().setValue(name);
-                        dataSnapshot.child("email").getRef().setValue(email);
-                        dataSnapshot.child("phonenumber").getRef().setValue(phone);
-                        dataSnapshot.child("busnumber").getRef().setValue(route);
 
-                        if (uri != null) {
+
+
+
+
+                        // Pattern match for email id
+                        Pattern p = Pattern.compile(Utils.regEx);
+                        Matcher m = p.matcher(email);
+                        Pattern p2 = Pattern.compile(Utils.regEx2);
+                        Matcher m2 = p2.matcher(name);
+                        Pattern p3 = Pattern.compile(Utils.regEx3);
+                        Matcher m3 = p3.matcher(name);
+
+                        // Check if all strings are null or not
+                        if (name.equals("") || name.length() == 0
+                                || email.equals("") || email.length() == 0
+                                || phone.equals("") || phone.length() == 0
+                                || route.equals("") || route.length() == 0
+                                )
+                        {
+                            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                            // inflate the layout over view
+                            View layout = inflater.inflate(R.layout.custom_toast,
+                                    (ViewGroup) findViewById(R.id.toast_root));
+
+                            // Get TextView id and set error
+                            TextView text = (TextView) layout.findViewById(R.id.toast_error);
+                            text.setText("All fields are required");
+
+                            Toast toast = new Toast(getApplicationContext());// Get Toast Context
+                            toast.setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 0);// Set
+                            // Toast
+                            // gravity
+                            // and
+                            // Fill
+                            // Horizoontal
+
+                            toast.setDuration(Toast.LENGTH_SHORT);// Set Duration
+                            toast.setView(layout); // Set Custom View over toast
+
+                            toast.show();// Finally show toast
+                        }
+
+
+                        // Check if email id valid or not
+                        else if (!m.find()){
+                            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                            // inflate the layout over view
+                            View layout = inflater.inflate(R.layout.custom_toast,
+                                    (ViewGroup) findViewById(R.id.toast_root));
+
+                            // Get TextView id and set error
+                            TextView text = (TextView) layout.findViewById(R.id.toast_error);
+                            text.setText("Your Email Id is Invalid");
+
+                            Toast toast = new Toast(getApplicationContext());// Get Toast Context
+                            toast.setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 0);// Set
+                            // Toast
+                            // gravity
+                            // and
+                            // Fill
+                            // Horizoontal
+
+                            toast.setDuration(Toast.LENGTH_SHORT);// Set Duration
+                            toast.setView(layout); // Set Custom View over toast
+
+                            toast.show();// Finally show toast
+                        }
+
+                        // Check if username valid or not
+                        else if (!m2.find()){
+                            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                            // inflate the layout over view
+                            View layout = inflater.inflate(R.layout.custom_toast,
+                                    (ViewGroup) findViewById(R.id.toast_root));
+
+                            // Get TextView id and set error
+                            TextView text = (TextView) layout.findViewById(R.id.toast_error);
+                            text.setText("Your Username is Invalid");
+
+                            Toast toast = new Toast(getApplicationContext());// Get Toast Context
+                            toast.setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 0);// Set
+                            // Toast
+                            // gravity
+                            // and
+                            // Fill
+                            // Horizoontal
+
+                            toast.setDuration(Toast.LENGTH_SHORT);// Set Duration
+                            toast.setView(layout); // Set Custom View over toast
+
+                            toast.show();// Finally show toast
+                        }
+
+                        // Check if username valid or not
+                        else if (!m3.find()){
+                            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                            // inflate the layout over view
+                            View layout = inflater.inflate(R.layout.custom_toast,
+                                    (ViewGroup) findViewById(R.id.toast_root));
+
+                            // Get TextView id and set error
+                            TextView text = (TextView) layout.findViewById(R.id.toast_error);
+                            text.setText("Your phone number is Invalid");
+
+                            Toast toast = new Toast(getApplicationContext());// Get Toast Context
+                            toast.setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 0);// Set
+                            // Toast
+                            // gravity
+                            // and
+                            // Fill
+                            // Horizoontal
+
+                            toast.setDuration(Toast.LENGTH_SHORT);// Set Duration
+                            toast.setView(layout); // Set Custom View over toast
+
+                            toast.show();// Finally show toast
+                        }
+
+
+
+
+                        else
+                        {
+                            dataSnapshot.child("username").getRef().setValue(name);
+                            dataSnapshot.child("email").getRef().setValue(email);
+                            dataSnapshot.child("phonenumber").getRef().setValue(phone);
+                            dataSnapshot.child("busnumber").getRef().setValue(route);
+                            Toast.makeText(EditProfile.this, "Changes Uploaded", Toast.LENGTH_SHORT).show();
+
+
+                            if (uri != null) {
                             final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             StorageReference filepath = mStorage.child(userId);
                             //StorageReference storagereference = mStorage.getR
@@ -172,8 +305,8 @@ public class EditProfile extends AppCompatActivity {
                                     progressBar.setProgress(0);
                                     Toast.makeText(EditProfile.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
                                     downloadUri = taskSnapshot.getDownloadUrl();
-                                   DatabaseReference newref = FirebaseDatabase.getInstance().getReference().child("Driver").child(userId);
-                                   newref.child("image").child(userId).setValue(downloadUri.toString());
+                                    DatabaseReference newref = FirebaseDatabase.getInstance().getReference().child("Driver").child(userId);
+                                    newref.child("image").child(userId).setValue(downloadUri.toString());
                                     // Toast.makeText(EditProfile.this, "uploaded", Toast.LENGTH_SHORT).show();
                                 }
                             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -187,6 +320,7 @@ public class EditProfile extends AppCompatActivity {
 
                                 }
                             });
+                        }
                         }
 
                     }
